@@ -1,3 +1,6 @@
+use std::net::TcpListener;
+use std::net::TcpStream;
+
 pub struct Server {
     // struct definition
     addr: String,
@@ -15,6 +18,11 @@ impl Server {
         }
     }
     pub fn run(self) {  // take ownership of the struct
-        println!("Listerning on {}", self.addr)
+        println!("Listerning on {}", self.addr);
+
+        let listener = TcpListener::bind(&self.addr).unwrap();
+        loop {
+            listener.accept();
+        }
     }
 }
