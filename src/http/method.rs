@@ -1,12 +1,35 @@
+use std::str::FromStr;
+
 #[repr(u8)]
 pub enum Method {
-    GET(String),
+    GET,
     POST,
-    PUT = 5,
+    PUT,
     HEAD,
     CONNECT,
     OPTIONS,
     TRACE,
     PATCH,
-    DELETE(u64)
+    DELETE
 }
+
+impl FromStr for Method {
+    type Err = MethodError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "GET" => Ok(Self::GET),
+            "POST" => Ok(Self::POST),
+            "PUT" => Ok(Self::PUT),
+            "HEAD" => Ok(Self::HEAD),
+            "CONNECT" => Ok(Self::CONNECT),
+            "OPTIONS" => Ok(Self::OPTIONS),
+            "TRACE" => Ok(Self::TRACE),
+            "PATCH" => Ok(Self::PATCH),
+            "DELETE" => Ok(Self::DELETE),
+            _ => return Err(MethodError)
+        }
+    }
+}
+
+pub struct MethodError;
