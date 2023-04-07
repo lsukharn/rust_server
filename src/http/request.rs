@@ -7,6 +7,7 @@ use std::fmt::{Result as FmtResult, Display, Debug, Formatter};
 use crate::http::method::MethodError;
 use super::query_string::QueryString;
 
+#[derive(Debug)]
 pub struct Request<'buf> {
     path: &'buf str,
     query_string: Option<QueryString<'buf>>,
@@ -23,7 +24,7 @@ impl<'buf> TryFrom<&'buf [u8]> for Request<'buf> {
         let (mut path, request) = get_next_word(request).ok_or(ParseError::InvalidRequest)?;
         let (protocol, request) = get_next_word(request).ok_or(ParseError::InvalidRequest)?;
 
-        if protocol != "HTTP1.1" {
+        if protocol != "HTTP/1.1" {
             return Err(ParseError::InvalidProtocol);
         }
         let method: Method = method.parse()?;

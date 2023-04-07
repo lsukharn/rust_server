@@ -1,6 +1,7 @@
 use std::str::FromStr;
 
 #[repr(u8)]
+#[derive(Debug)]
 pub enum Method {
     GET,
     POST,
