@@ -1,5 +1,5 @@
-use std::io::Read;
-use crate::http::Request;
+use std::io::{Write, Read};
+use crate::http::{Request, Response, StatusCode};
 use std::convert::TryFrom;
 use std::convert::TryInto;
 use std::net::TcpListener;
@@ -31,12 +31,18 @@ impl Server {
                     match stream.read(&mut buf) {
                         Ok(_) => {
                             println!("Received a request: {}", String::from_utf8_lossy(&buf));
-                            match Request::try_from(&buf[..]) {
+                            let response= match Request::try_from(&buf[..]) {
                                 Ok(request) => {
                                     dbg!(request);
+                                    Response::new(StatusCode::OK,
+                                                  Some("<h1>The body. It got here</h1>".to_string()))
                                 },
-                                Err(e) => println!("Failed to parse the request: {}", e)
-                            }
+                                Err(e) => {
+                                    println!("Failed to parse the request: {}", e);
+                                    Response::new(StatusCode::BadRequest, None)
+                                }
+                            };
+                            response.send(&mut stream);
                         },
                         Err(e) => println!("Failed to read form connection: {}", e),
                     }
