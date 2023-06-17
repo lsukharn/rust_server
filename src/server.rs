@@ -1,4 +1,4 @@
-use std::io::Read;
+use std::io::{Read};
 use crate::http::Request;
 use crate::http::handler::Handler;
 use std::convert::TryFrom;
@@ -22,16 +22,16 @@ impl Server {
         let listener = TcpListener::bind(&self.addr).unwrap();
         loop {
             match listener.accept() {
-                Ok((mut stream, adrr)) =>{
+                Ok((mut stream, addr)) =>{
                     let mut buf = [0; 1024];
                     match stream.read(&mut buf) {
                         Ok(_) => {
-                            println!("Received a request: {}", String::from_utf8_lossy(&buf));
+                            println!("Received a request: {}, from address: {}", String::from_utf8_lossy(&buf), addr);
                             let response= match Request::try_from(&buf[..]) {
                                 Ok(request) => handler.handle_request(&request),
                                 Err(e) => handler.handle_bad_request(&e)
                             };
-                            response.send(&mut stream);
+                            response.send(&mut stream).ok();
                         },
                         Err(e) => println!("Failed to read form connection: {}", e),
                     }
