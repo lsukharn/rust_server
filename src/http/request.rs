@@ -2,7 +2,6 @@ use super::method::Method;
 use std::str;
 use std::str::Utf8Error;
 use std::convert::TryFrom;
-use std::error::Error;
 use std::fmt::{Result as FmtResult, Display, Debug, Formatter};
 use crate::http::method::MethodError;
 use super::query_string::QueryString;

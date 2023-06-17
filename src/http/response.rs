@@ -1,6 +1,4 @@
-use std::fmt::{Result as FmtResult, Display, Debug, Formatter};
-use std::string::ParseError;
-use std::net::TcpStream;
+use std::fmt::Debug;
 use std::io::{Result as IoResult, Write};
 use super::StatusCode;
 

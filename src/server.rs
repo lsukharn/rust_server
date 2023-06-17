@@ -1,8 +1,7 @@
-use std::io::{Write, Read};
-use crate::http::{ParseError, Request, Response, StatusCode};
+use std::io::Read;
+use crate::http::Request;
 use crate::http::handler::Handler;
 use std::convert::TryFrom;
-use std::convert::TryInto;
 use std::net::TcpListener;
 
 

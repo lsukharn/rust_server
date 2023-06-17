@@ -1,13 +1,7 @@
 #![allow(dead_code)]
 use server::Server;
-use http::Request;
-use http::Method;
 use http::handler::WebHandler;
-use std::io::{Read, Error as IOError};
-use std::fs::File;
 use std::env;
-
-use std::str;
 
 mod server;
 mod http;
